@@ -7,5 +7,6 @@
 @import "additional-styles/theme.css";
 
 @import "tailwindcss/utilities";
+@import './basic.css';
 @import './background.css';
 @import './ui.css';

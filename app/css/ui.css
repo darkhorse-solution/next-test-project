@@ -1,10 +1,93 @@
-.cst-input{
-    background-color: #224957;
-    border: #224957 1px solid;
-    border-radius: 10px;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.cst-input, .cst-input:active {
+  background-color: #224957;
+  border: #224957 1px solid;
+  border-radius: 10px;
 }
-.cst-button{
-    background-color: #2BD17E;
-    color: white;
-    font-size: 16px;
+.cst-input:hover,
+.cst-input:focus {
+  border: #538da6 1px solid;
+}
+
+.cst-input::placeholder {
+  color: white;
+  opacity: 0.8;
+}
+.cst-button {
+  background: #2bd17e;
+  color: white;
+  font-size: 17px;
+  font-weight: 900;
+  transition: all ease-out 0.1s;
+}
+.cst-button:hover {
+  background: #22a362;
+  transition: all ease-in 0.3s;
+}
+
+.cst-checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+.boxes {
+  margin: auto;
+  padding: 50px;
+  border-radius: 5px;
+
+  /* background: #484848; */
+}
+
+/*Checkboxes styles*/
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font:
+    14px/20px "Open Sans",
+    Arial,
+    sans-serif;
+  color: #ddd;
+  cursor: pointer;
+}
+
+input[type="checkbox"] + label:last-child {
+  margin-bottom: 0;
+}
+
+input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #538da6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.6;
+
+  -webkit-transition:
+    all 0.12s,
+    border-color 0.08s;
+  transition:
+    all 0.12s,
+    border-color 0.08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
