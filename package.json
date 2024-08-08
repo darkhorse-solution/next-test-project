@@ -11,6 +11,7 @@
   "dependencies": {
     "aos": "^2.3.4",
     "apollo-server-micro": "^3.13.0",
+    "bcrypt": "^5.1.1",
     "graphql": "^16.9.0",
     "mongoose": "^8.5.2",
     "next": "14.2.5",

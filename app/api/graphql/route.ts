@@ -1,8 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { ApolloServer } from 'apollo-server-micro';
+import { typeDefs } from '../../../graphql/schemas';
+import { resolvers } from '../../../graphql/resolvers';
 import connectToDatabase from '../../../lib/mongoose';
-import typeDefs from '../../../graphql/schema';
-import resolvers from '../../../graphql/resolvers';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -13,14 +18,9 @@ const apolloServer = new ApolloServer({
   },
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+const startServer = apolloServer.start();
 
-export async function POST(req: NextRequest) {
-  const startServer = apolloServer.start();
+export async function POST(req: any, res: any) {
   await startServer;
-  return apolloServer.createHandler({ path: '/api/graphql' })(req as any, NextResponse as any);
+  await apolloServer.createHandler({ path: '/api/graphql' })(req, res);
 }
