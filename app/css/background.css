@@ -9,7 +9,7 @@
 }
 
 .background-svg{
-
+    opacity: .8;
     position: absolute;
     bottom: 0;
 }

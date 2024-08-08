@@ -12,10 +12,10 @@ export default function SignIn() {
       <>
       <Background></Background>
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-white text-center" style={{fontFamily: "monospace"}}>Sign in</h1>
+          <h1 className="text-6xl font-bold text-white text-center" style={{fontFamily: "monospace"}}>Sign in</h1>
         </div>
         {/* Form */}
-        <form>
+        <form >
           <div className="space-y-4">
             <div>              
               <input
@@ -36,16 +36,14 @@ export default function SignIn() {
                 required
               />
             </div>
-            <div>
-              <input
-                type="checkbox"
-                className=" cst-input "
-              />
+            <div className="cst-checkbox">              
+              <input type="checkbox" id="box-1"/>
+              <label htmlFor="box-1">Remember me</label>              
             </div>
           </div>
           <div className="mt-6">
-            <button className="btn w-full cst-button py-4 px-3">
-              Sign In
+            <button className="btn w-full cst-button py-4 px-3 text-white">
+              Login
             </button>
           </div>
         </form>     
