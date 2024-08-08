@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
+import {jwtDecode} from 'jwt-decode';
 import { JwtPayload } from 'jsonwebtoken';
 
 export interface AuthenticatedRequest extends NextRequest {
@@ -14,8 +15,9 @@ export function authMiddleware(req: AuthenticatedRequest) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    req.user = decoded;
+    const decoded : any = jwt.verify(token, process.env.JWT_SECRET as string);
+    req.user = jwtDecode(decoded.token);    
+    
     return; // Proceed to the requested route
   } catch (err) {
     return NextResponse.json({ message: 'Invalid token' }, { status: 401 });

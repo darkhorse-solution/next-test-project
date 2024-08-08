@@ -3,6 +3,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import Video from '@/models/Video';
 import connectToDatabase from '@/lib/mongoose';
 import { AuthenticatedRequest } from '@/types';
+import formidable, { File } from 'formidable';
+import fs from 'fs';
+import path from 'path';
+
+export const config = {
+  api: {
+    bodyParser: false, // disable Next.js's built-in bodyParser
+  },
+};
+
+const uploadDir = path.join(process.cwd(), 'uploads/videos');
+
+// Ensure the upload directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 export async function GET(req: NextRequest) {
   await connectToDatabase();
@@ -13,12 +29,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: AuthenticatedRequest) {
   const authResponse = authMiddleware(req);
+  
   if (authResponse) return authResponse;
 
   await connectToDatabase();
 
   const { title, publishYear, link } = await req.json();
-  const video = new Video({ title, publishYear, link, createdBy: req.user!.id });
+  const video = new Video({ title, publishYear, link, createdBy: req.user?.id });
   await video.save();
 
   return NextResponse.json(video, { status: 201 });
