@@ -4,6 +4,7 @@ export interface IVideo extends Document {
   title: string;
   publishYear: number;
   link: string;
+  createdBy: string;
 }
 
 const VideoSchema: Schema<IVideo> = new Schema(
@@ -11,6 +12,7 @@ const VideoSchema: Schema<IVideo> = new Schema(
     title: { type: String, required: true },
     publishYear: { type: Number, required: true },
     link: { type: String, required: true },
+    createdBy: { type: String, required: true },
   },
   { timestamps: true }
 );

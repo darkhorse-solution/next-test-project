@@ -16,7 +16,7 @@ export function authMiddleware(req: AuthenticatedRequest) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     req.user = decoded;
-    return NextResponse.next(); // Proceed to the requested route
+    return; // Proceed to the requested route
   } catch (err) {
     return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
   }
