@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import User from '@/models/User';
 import connectToDatabase from '@/lib/mongoose';
 
@@ -9,13 +7,14 @@ export async function POST(req: Request) {
 
   const { email, newPassword } = await req.json();
 
+  // Find the user by email
   const user = await User.findOne({ email });
   if (!user) {
     return NextResponse.json({ message: 'User not found' }, { status: 404 });
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  user.password = hashedPassword;
+  // Update user's password
+  user.password = newPassword;
   await user.save();
 
   return NextResponse.json({ message: 'Password reset successful' }, { status: 200 });
