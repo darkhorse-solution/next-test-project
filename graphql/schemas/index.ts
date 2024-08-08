@@ -1,4 +1,4 @@
-import { userTypeDefs } from './user';
+import { userTypeDefs } from './users';
 import { gql } from 'apollo-server-micro';
 
 const rootTypeDefs = gql`

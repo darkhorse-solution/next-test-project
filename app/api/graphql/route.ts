@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-micro';
 import { typeDefs } from '../../../graphql/schemas';
-import resolvers from '../../../graphql/resolvers';
+import { resolvers } from '../../../graphql/resolvers';
 import connectToDatabase from '../../../lib/mongoose';
 
 export const config = {
