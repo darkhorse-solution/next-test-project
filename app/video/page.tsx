@@ -1,31 +1,36 @@
 'use client'
 import Background from "@/components/ui/background";
 import { useState } from "react";
-import NoVideos from "@/components/novideo";
-import VideoList from "@/components/videolist";
+import NoVideos from "@/components/video/novideo";
+import VideoList from "@/components/video/videolist";
+
+type Video = {
+    id: string; // or number, depending on your needs
+    title: string;
+    publishYear: number; // Corrected property name
+    link: string;
+    createdBy: string;
+};
+
 
 export default function Videos() {
-<<<<<<< HEAD
-    const [movies, setMovies] = useState([])
-=======
-    const [movies, setMovies] = useState([
+    const [movies, setMovies] = useState<Video[]>([
         {
-            title: "OK"
+            id: "rwef23fwf",
+            title: "OK",
+            publishYear: 2019,
+            link: "https://sfs.com/sdf",
+            createdBy: "natash"
         }
     ])
->>>>>>> 160815685f966c63f97ae216ccd5743ced193dc6
-
     return (
         <>
-            <Background/>
-            {
-                movies?.length? (
-                    <VideoList movies={movies} />
-                ):
-                (
-                    <NoVideos/>
-                )
-            }
+             <Background />
+            {movies.length ? (
+                <VideoList lists={movies} /> 
+            ) : (
+                <NoVideos />
+            )}
         </>
     )
 }
