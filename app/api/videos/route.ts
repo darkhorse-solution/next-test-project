@@ -1,39 +1,27 @@
-import { NextResponse } from 'next/server';
+import { authMiddleware } from '@/middleware/requireAuth';
+import { NextRequest, NextResponse } from 'next/server';
 import Video from '@/models/Video';
 import connectToDatabase from '@/lib/mongoose';
-import requireAuth from '@/middleware/requireAuth';
-import { IUser } from '@/models/User';
+import { AuthenticatedRequest } from '@/types';
 
-interface AuthenticatedRequest extends Request {
-  user: IUser;
-}
-
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await connectToDatabase();
 
+  // No need for authMiddleware here, it's an open route
   const videos = await Video.find({});
   return NextResponse.json(videos, { status: 200 });
 }
 
-export async function POST(req: Request) {
-  const authReq = req as AuthenticatedRequest;
+export async function POST(req: AuthenticatedRequest) {
+  const authResponse = authMiddleware(req);
+  if (authResponse) return authResponse;
+
   await connectToDatabase();
 
-  if (!authReq.user) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-  }
-
+  // Create video
   const { title, publishYear, link } = await req.json();
-
-  const video = new Video({
-    title,
-    publishYear,
-    link,
-    createdBy: authReq.user._id,
-  });
-
+  const video = new Video({ title, publishYear, link, createdBy: req.user!.id });
   await video.save();
+
   return NextResponse.json(video, { status: 201 });
 }
-
-export default requireAuth; // Apply the authentication middleware to the POST route
