@@ -1,0 +1,15 @@
+.background-cover {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #093545;
+    z-index: -1;
+}
+
+.background-svg{
+
+    position: absolute;
+    bottom: 0;
+}
