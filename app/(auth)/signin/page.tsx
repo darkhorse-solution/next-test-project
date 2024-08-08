@@ -4,64 +4,51 @@ export const metadata = {
 };
 
 import Link from "next/link";
+import Background from "../../../components/ui/background"
 
 export default function SignIn() {
   return (
     <>
       <>
+      <Background></Background>
         <div className="mb-10">
-          <h1 className="text-4xl font-bold">Sign in to your account</h1>
+          <h1 className="text-4xl font-bold text-white text-center" style={{fontFamily: "monospace"}}>Sign in</h1>
         </div>
         {/* Form */}
         <form>
           <div className="space-y-4">
-            <div>
-              <label
-                className="mb-1 block text-sm font-medium text-gray-700"
-                htmlFor="email"
-              >
-                Email
-              </label>
+            <div>              
               <input
                 id="email"
-                className="form-input w-full py-2"
+                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
                 type="email"
-                placeholder="corybarker@email.com"
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div>                           
+              <input
+                id="password"
+                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
+                type="password"
+                autoComplete="on"
+                placeholder="Password"
                 required
               />
             </div>
             <div>
-              <label
-                className="mb-1 block text-sm font-medium text-gray-700"
-                htmlFor="password"
-              >
-                Password
-              </label>
               <input
-                id="password"
-                className="form-input w-full py-2"
-                type="password"
-                autoComplete="on"
-                placeholder="••••••••"
-                required
+                type="checkbox"
+                className=" cst-input "
               />
             </div>
           </div>
           <div className="mt-6">
-            <button className="btn w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%]">
+            <button className="btn w-full cst-button py-4 px-3">
               Sign In
             </button>
           </div>
-        </form>
-        {/* Bottom link */}
-        <div className="mt-6 text-center">
-          <Link
-            className="text-sm text-gray-700 underline hover:no-underline"
-            href="/reset-password"
-          >
-            Forgot password
-          </Link>
-        </div>
+        </form>     
       </>
     </>
   );
