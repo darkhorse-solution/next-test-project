@@ -6,3 +6,58 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+.video-card {    
+    padding: 8px 8px 16px 8px;    
+    width: 100%;
+    /* max-width: 266px; */
+    /* position: relative; */
+    background-color: #092C39;
+    border-radius: 12px;
+    gap: 16px;
+    height: 504px;
+    /* overflow: hidden; */
+}
+.video-image{
+    width: 100%;
+    max-width: 266px;
+    border-radius: 12px;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    
+}
+.video-container{
+    padding: 5%;
+}
+.video-create{
+    padding: 6%;
+    color: white;    
+    position: relative;
+}
+.video-drag{
+    max-width:  473px;
+    max-height: 504px;
+    width: 100%;
+    height: 504px;
+    background-color: #224957;
+    border: white 2px dashed;
+    border-radius: 10px;
+    position: relative;
+}
+.video-drag:hover {
+    cursor: pointer;
+    box-shadow: 0 5px 16px 4px rgba(255, 255, 255, 0.1);
+    transition: all .2s ease-out;
+}
+.video-drag-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    
+}
+.img-download{
+    color: white;
+}

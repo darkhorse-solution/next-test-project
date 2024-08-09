@@ -17,17 +17,17 @@ export default function VideoList({ lists }: VideoListProps) {
   console.log(lists);
   return (
     <>
-    <div className="container">
-      <div className="flex flex-wrap -m-4">
-        {lists.map((list, idx) => {
-          return (
-            
-              <div  key={idx} style={{width: '30%'}}>
+      <div className="video-container">
+        <h1 className="text-4xl text-white mb-10">My Movies</h1>
+        <div className="flex flex-wrap -m-4">
+          {lists.map((list, idx) => {
+            return (
+              <div key={idx} className="md:w-1/4 sm: w-1/2 p-2">
                 <VideoCard content={list} />
-              </div>            
-          );
-        })}
-      </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

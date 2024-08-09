@@ -15,10 +15,17 @@ export default function VideoCard({ content }: VideoCard) {
   return (
     <>
       <div className="video-card">
-        <Image src="https://dummyimage.com/720x400" alt="okok" layout="fill" />
-        <div className="text-white">
-          <h4>{content.title}</h4>
-          <h6>{content.publishYear}</h6>
+        <div className="video-image">
+          <Image
+            src={content.link}
+            alt={content.title}
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
+        <div className="text-white ml-3 mt-3">
+          <h4 className="text-2xl">{content.title}</h4>
+          <h6 className="text-xl">{content.publishYear}</h6>
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import "./css/style.css";
-
+import '../lib/fontAwesome'
 import { Inter } from "next/font/google";
 
 const inter = Inter({
