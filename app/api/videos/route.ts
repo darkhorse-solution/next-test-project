@@ -7,12 +7,6 @@ import formidable, { File } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
-export const config = {
-  api: {
-    bodyParser: false, // disable Next.js's built-in bodyParser
-  },
-};
-
 const uploadDir = path.join(process.cwd(), 'uploads/videos');
 
 // Ensure the upload directory exists
