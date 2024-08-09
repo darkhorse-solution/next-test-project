@@ -12,6 +12,7 @@ export default function Home() {
       <div>
         <Background />
         <div className="text-center text-white home-title">
+<<<<<<< HEAD
           <h1 className="text-5xl">Welcome BALAJI</h1>
           <p>We sincerly hope to work with you. We will do our best.</p>
           <div className="flex flex-wrap mt-5">
@@ -26,7 +27,12 @@ export default function Home() {
               </button>
             </Link>
           </div>
+=======
+        <h1 className="text-5xl">Welcome BALAJI</h1>
+        <p className="mt-3">We sincerly hope to work with you. We will do our best.</p>
+>>>>>>> a8b2ff17fb6822349d5d1a0c3e7936d283cad0a3
         </div>
+        <div className="footer">@2024@</div>
       </div>
     </>
   );
