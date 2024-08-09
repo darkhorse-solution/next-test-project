@@ -6,6 +6,7 @@ export async function POST(req: Request) {
   await connectToDatabase();
 
   const { email, password } = await req.json();
+  console.log(email)
 
   // Check if the user already exists
   const existingUser = await User.findOne({ email });
