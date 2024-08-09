@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: AuthenticatedRequest) {
   const authResponse = authMiddleware(req);
-  
+   
   if (authResponse) return authResponse;
 
   await connectToDatabase();

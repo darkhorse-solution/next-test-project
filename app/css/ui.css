@@ -22,13 +22,24 @@
   transition: all ease-out 0.1s;
 }
 .cst-button:hover {
-  background: #22a362;
+  background: #29c778;
+  border: 1px white solid;
   transition: all ease-in 0.3s;
 }
 
 .cst-checkbox {
   display: flex;
   justify-content: center;
+}
+
+.cst-button-outline {
+    border: 1px solid rgb(232, 229, 229);
+    transition: all .1s ease-in
+}
+
+.cst-button-outline:hover {
+    border: 1px solid #2bd17e;
+    transition: all .2s ease-in;
 }
 
 .boxes {
@@ -90,4 +101,16 @@ input[type="checkbox"]:checked + label:before {
   border-left-color: transparent;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.w-300 {
+    width: 300px;
+}
+
+.w-400 {
+    width: 400px;
+}
+
+.w-200 {
+    width: 200px;
 }
