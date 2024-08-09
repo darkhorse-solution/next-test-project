@@ -19,12 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth w-full">
       <head>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
       </head>
       <body
-        className={`${inter.variable} bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
+        className={`${inter.variable} mx-auto max-w-[1440px] bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
       >
         <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}
