@@ -8,8 +8,10 @@
     z-index: -1;
 }
 
-.background-svg{
+.background-svg {
     opacity: .8;
     position: absolute;
     bottom: 0;
+    width: 100%; /* Make the SVG fill the container */
+    height: auto; /* Maintain aspect ratio */
 }

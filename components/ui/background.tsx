@@ -6,8 +6,7 @@ export default function Background({ border = false }: { border?: boolean }) {
     <div className="background-cover">
       <div className="background-svg">
         <svg
-          width="1440"
-          height="111"
+        
           viewBox="0 0 1440 111"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +29,7 @@ export default function Background({ border = false }: { border?: boolean }) {
       </div>
       <div className="background-svg">
         <svg
-          width="1440"
-          height="111"
+      
           viewBox="0 0 1440 111"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
