@@ -9,16 +9,19 @@ interface CoUProps {
     createdBy: string;
 }
 
-export default function CreateVideo({data}: CoUProps) {
-    let pagetitle:String = "Create a movie";
-    if(data.id) pagetitle = "Edit";
+export default function CreateVideo({params}: {params: {action: string}}) {
+    let pagetitle = "Create a new movie";
+    console.log(params)
+    if(params && params.action === 'edit') {
+      pagetitle = "Edit"
+    } 
     
   return (
     <>
       <Background />
       <div className="video-create">
         <div className="flex">
-          <h1 className="text-4xl mb-12">{{pagetitle}}</h1>
+          <h1 className="text-4xl mb-12">{pagetitle}</h1>
         </div>
 
         <div className="flex flex-wrap -m-4">
