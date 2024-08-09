@@ -8,6 +8,7 @@
 }
 
 .video-card {    
+    cursor: pointer;
     padding: 8px 8px 16px 8px;    
     width: 100%;
     /* max-width: 266px; */
@@ -17,6 +18,10 @@
     gap: 16px;
     height: 504px;
     /* overflow: hidden; */
+}
+.video-card:hover {
+    box-shadow: 0 5px 15px 6px rgba(7, 1, 1, 0.1);
+    transition: all .1s ease-in;
 }
 .video-image{
     width: 100%;

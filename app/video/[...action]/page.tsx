@@ -9,10 +9,11 @@ interface CoUProps {
     createdBy: string;
 }
 
-export default function CreateVideo({params}: {params: {action: string}}) {
+export default function CreateVideo({params}: {params: {action: string[]}}) {
     let pagetitle = "Create a new movie";
-    console.log(params)
-    if(params && params.action === 'edit') {
+    let edit_id = null;
+    if(params.action.length === 2) edit_id = params.action[1];
+    if(params && params.action[0] === 'edit') {
       pagetitle = "Edit"
     } 
     

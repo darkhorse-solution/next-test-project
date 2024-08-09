@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 type Video = {
   id: string;
@@ -12,9 +13,14 @@ interface VideoCard {
 }
 
 export default function VideoCard({ content }: VideoCard) {
+    const router = useRouter();
+    function handleEdit() {
+        let link = "/video/edit/" + content.id;
+        router.push(link);
+    }
   return (
     <>
-      <div className="video-card">
+      <div className="video-card" onClick={handleEdit}>
         <div className="video-image">
           <Image
             src={content.link}
