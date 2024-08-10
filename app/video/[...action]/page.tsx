@@ -24,6 +24,8 @@ export default function CreateVideo({
   params: { action: string[] };
 }) {
   const router = useRouter();
+    const [title, setTitle] = useState<string>('');
+  const [publishyear, setPublishyear] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>("");
   let pagetitle = "Create a new movie";
   let edit_id = null;
@@ -60,6 +62,20 @@ export default function CreateVideo({
   const uploadImage = async ({ imageFile }: Image) => {
     const imageUrl = URL.createObjectURL(imageFile);
     setImageUrl(imageUrl)
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onloadend = async () => {
+        const base64data = reader.result;
+
+        const response = await fetch('/api/videos/upload/productImage', {
+            method: 'POST',
+            body: JSON.stringify({ file: base64data, title, publishyear }), // Include id and name
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const data = await response.json();
+        console.log(data); // The response will include the URL, id, and name
+    };
   };
 
   return (
@@ -119,6 +135,7 @@ export default function CreateVideo({
                 autoComplete="on"
                 placeholder="Title"
                 required
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div>
@@ -129,6 +146,7 @@ export default function CreateVideo({
                 autoComplete="on"
                 placeholder="Publish year"
                 required
+                onChange={(e) => setPublishyear(e.target.value)}
               />
             </div>
             <div className="flex flex-wrap mt-3">
