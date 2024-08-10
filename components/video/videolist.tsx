@@ -1,7 +1,9 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import VideoCard from "./videocard";
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type Video = {
   id: string;
@@ -15,7 +17,18 @@ interface VideoListProps {
 }
 
 export default function VideoList({ lists }: VideoListProps) {
-  console.log(lists);
+  const {user, logout} = useAuth();
+  const router = useRouter();
+  function handleLogout() {
+    logout();
+    router.push('/signin')
+  }
+  useEffect(()=> {
+    console.log(user);
+    if(!user?.email) {
+      router.push('/signin')
+    }
+  })
   return (
     <>
       <div className="video-container">
@@ -36,7 +49,7 @@ export default function VideoList({ lists }: VideoListProps) {
             </svg>
           </div>
           <div className="video-logout mt-1">
-            <div className="flex">
+            <div className="flex" onClick={handleLogout}>
               <h1 className="text-2xl text-white mb-10">Logout</h1>
               <div>
                 <svg

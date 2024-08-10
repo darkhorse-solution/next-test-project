@@ -1,12 +1,33 @@
-export const metadata = {
-  title: "Sign In - Simple",
-  description: "Page description",
-};
+'use client'
+import React, { useState } from "react";
+
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import Background from "../../../components/ui/background"
 
 export default function SignIn() {
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    console.log(email, password);
+    const res = await fetch("/api/auth/signIn", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (res.ok) {
+      login(email);
+      router.push("/video");
+    }
+  }
   return (
     <>
       <>
@@ -15,7 +36,7 @@ export default function SignIn() {
           <h1 className="text-6xl font-bold text-white text-center" style={{fontFamily: "monospace"}}>Sign in</h1>
         </div>
         {/* Form */}
-        <form >
+        <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>              
               <input
@@ -24,6 +45,7 @@ export default function SignIn() {
                 type="email"
                 placeholder="Email"
                 required
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>                           
@@ -34,6 +56,7 @@ export default function SignIn() {
                 autoComplete="on"
                 placeholder="Password"
                 required
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="cst-checkbox">              

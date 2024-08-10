@@ -3,17 +3,17 @@ import React, { useState } from "react";
 
 import Background from "../../../components/ui/background";
 import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-
-  const {login} = useAuth()
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(email, password)
+    console.log(email, password);
     const res = await fetch("/api/auth/signUp", {
       method: "POST",
       headers: {
@@ -21,8 +21,9 @@ export default function SignUp() {
       },
       body: JSON.stringify({ email, password }),
     });
-    if(res.status === 201) {
-      login(email)
+    if (res.ok) {
+      login(email);
+      router.push("/video");
     }
   }
   return (
