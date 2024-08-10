@@ -23,6 +23,9 @@ export default function VideoList({ lists }: VideoListProps) {
     logout();
     router.push('/signin')
   }
+  function handleAdd() {
+    router.push('/video/create')
+  }
   useEffect(()=> {
     console.log(user);
     if(!user?.email) {
@@ -34,7 +37,7 @@ export default function VideoList({ lists }: VideoListProps) {
       <div className="video-container">
         <div className="flex">
           <h1 className="text-4xl text-white mb-10">My Movies</h1>
-          <div className="video-add-btn">
+          <div className="video-add-btn" onClick={handleAdd}>
             <svg
               width="28"
               height="28"

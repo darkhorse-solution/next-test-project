@@ -47,6 +47,7 @@
   border: white 2px dashed;
   border-radius: 10px;
   position: relative;
+  display: block;
 }
 .video-drag:hover {
   cursor: pointer;
@@ -70,9 +71,12 @@
   /* position: absolute; */
   margin-top: 8px;
   margin-left: 12px;
+  cursor: pointer;
 }
 
 .video-logout{
     position: absolute;
     right: 5%;
+    cursor: pointer;
 }
+
