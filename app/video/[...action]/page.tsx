@@ -41,7 +41,7 @@ export default function CreateVideo({
     console.log("ok");
   }
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback((acceptedFiles: any) => {
     // Upload files to storage
     const file = acceptedFiles[0];
     setImage(file)
@@ -52,7 +52,7 @@ export default function CreateVideo({
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
-    accept: "image/*",
+    accept: "image/*" as any,
     maxFiles: 1,
     noClick: true,
     noKeyboard: true,
