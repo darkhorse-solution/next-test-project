@@ -4,16 +4,6 @@ import fs from "fs/promises";
 import path from "path";
 import connectToDatabase from "@/lib/mongoose";
 import Video from "@/models/Video";
-import { skip } from "node:test";
-
-// Disable the body parser to handle form-data
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10gb', // Adjust the size limit as needed
-    },
-  },
-};
 
 export async function POST(req: NextRequest) {
   try {
