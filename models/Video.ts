@@ -10,9 +10,9 @@ export interface IVideo extends Document {
 const VideoSchema: Schema<IVideo> = new Schema(
   {
     title: { type: String, required: true },
-    publishYear: { type: Number, required: true },
+    publishYear: { type: Number},
     link: { type: String, required: true },
-    createdBy: { type: String, required: true },
+    createdBy: { type: String },
   },
   { timestamps: true }
 );

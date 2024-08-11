@@ -24,8 +24,9 @@ export default function CreateVideo({
   params: { action: string[] };
 }) {
   const router = useRouter();
-    const [title, setTitle] = useState<string>('');
-  const [publishyear, setPublishyear] = useState<string>('');
+  const [image, setImage] = useState<File | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [publishYear, setPublishyear] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   let pagetitle = "Create a new movie";
   let edit_id = null;
@@ -35,10 +36,7 @@ export default function CreateVideo({
   }
   function handleCancel() {
     router.push("/video");
-  }
-  function handleSubmit() {
-    router.push("/video");
-  }
+  }  
   function handleImage() {
     console.log("ok");
   }
@@ -46,9 +44,11 @@ export default function CreateVideo({
   const onDrop = useCallback((acceptedFiles) => {
     // Upload files to storage
     const file = acceptedFiles[0];
-    console.log(file)
-    setImageUrl(file.path)
-    uploadImage({ imageFile: file });    
+    setImage(file)
+    console.log(file);
+    const imageUrl = URL.createObjectURL(file);
+    setImageUrl(imageUrl);
+    // uploadImage({ imageFile: file });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -59,23 +59,34 @@ export default function CreateVideo({
     onDrop,
   });
 
-  const uploadImage = async ({ imageFile }: Image) => {
-    const imageUrl = URL.createObjectURL(imageFile);
-    setImageUrl(imageUrl)
+  const handleSubmit = async () => {   
+    if(!image || !title || !publishYear)  return;
     const reader = new FileReader();
-    reader.readAsDataURL(imageFile);
+    reader.readAsDataURL(image);
+    
+    console.log(title)
     reader.onloadend = async () => {
-        const base64data = reader.result;
-
-        const response = await fetch('/api/videos/upload/productImage', {
-            method: 'POST',
-            body: JSON.stringify({ file: base64data, title, publishyear }), // Include id and name
-            headers: { 'Content-Type': 'application/json' },
+      const base64Image = reader.result?.toString();
+    if (base64Image) {
+      try {
+        const response = await fetch("/api/videos/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: base64Image, title, publishYear }),
         });
 
+        if (!response.ok) {
+          throw new Error("Image upload failed");
+        }
         const data = await response.json();
-        console.log(data); // The response will include the URL, id, and name
-    };
+        setImageUrl(data.url);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
   };
 
   return (
@@ -90,19 +101,21 @@ export default function CreateVideo({
           <div className="lg:w-6/12 sm:w-1/1 w-full">
             <div>
               <div
-              {...getRootProps()}
+                {...getRootProps()}
                 onClick={open}
                 className=" ml-3 video-drag"
               >
                 {imageUrl ? (
-                  
-                  <Image src={imageUrl} alt="image" layout="fill"
-                  objectFit="cover" />
-                  
+                  <Image
+                    src={imageUrl}
+                    alt="image"
+                    layout="fill"
+                    objectFit="cover"
+                  />
                 ) : (
                   <>
                     <input
-                    {...getRootProps()}
+                      {...getRootProps()}
                       style={{ width: "100%", height: "100%" }}
                       type="file"
                       hidden

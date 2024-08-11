@@ -4,7 +4,6 @@ import User from '@/models/User';
 import connectToDatabase from '@/lib/mongoose';
 
 export async function POST(req: Request) {
-  console.log(req)
   await connectToDatabase();
 
   const { email, password } = await req.json();
