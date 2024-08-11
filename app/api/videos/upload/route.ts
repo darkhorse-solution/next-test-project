@@ -15,7 +15,6 @@ export const config = {
   },
 };
 
-
 export async function POST(req: NextRequest) {
   try {
     await connectToDatabase();
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
     await Video.create({
       title,
       publishYear,
-      videoUrl: videoUrl
+      link: videoUrl
     });
 
     return NextResponse.json({ url: videoUrl });
