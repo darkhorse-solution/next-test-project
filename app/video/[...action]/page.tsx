@@ -37,10 +37,6 @@ export default function CreateVideo({
   function handleCancel() {
     router.push("/video");
   }  
-  function handleImage() {
-    console.log("ok");
-  }
-
   const onDrop = useCallback((acceptedFiles: any) => {
     // Upload files to storage
     const file = acceptedFiles[0];
@@ -80,8 +76,11 @@ export default function CreateVideo({
         if (!response.ok) {
           throw new Error("Image upload failed");
         }
+        else {
+          router.push('/video')
+        }
         const data = await response.json();
-        setImageUrl(data.url);
+        
       } catch (error) {
         console.error(error);
       }

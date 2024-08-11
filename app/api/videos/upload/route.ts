@@ -17,15 +17,15 @@ export async function POST(req: Request, res: Response) {
         public_title: `${title}-${publishYear}`, // Use ID and publishYear for the public ID
         overwrite: true, // Overwrite if the ID already exists
       });
-      console.log(result)
+      // console.log(result)
 
       // res.status(200).json({ url: result.secure_url });
       const link = result.secure_url;
       await connectToDatabase();
       const newVideo = new Video({title, publishYear, link})
-      console.log(newVideo)
+      // console.log(newVideo)
       await newVideo.save();
-      
+      return NextResponse.json("Successfully added", {status: 200})
     } catch (error) {
       return NextResponse.json('Failed upload', { status: 500 });
     }

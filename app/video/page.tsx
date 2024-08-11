@@ -1,5 +1,6 @@
+'use client'
 import Background from "@/components/ui/background";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoVideos from "@/components/video/novideo";
 import VideoList from "@/components/video/videolist";
 
@@ -12,9 +13,32 @@ type Video = {
 };
 
 
-async function Videos() {
+
+function Videos() {
     // const res = await fetch('/api/videos');
-    // const movies: Video[] = await res.json();
+    // const t_movies: Video[] = await res.json();
+    const [videos, setVideos] = useState<Video[]>([]);
+    useEffect(() => {
+      const fetchVideos = async () => {
+          try {
+              const response = await fetch('/api/videos?page=1&limit=10');
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              const data = await response.json();
+              setVideos(data);
+              console.log(data)
+              // console.log(data)
+          } catch (error) {
+              
+          } finally {
+              
+          }
+      };
+
+      fetchVideos();
+  }, []);
+    // console.log(t_movies)
     const movies = [
         {
           id: "1",
@@ -63,8 +87,8 @@ async function Videos() {
         <>
             <Background />
             <div>
-            {movies.length ? (
-                <VideoList lists={movies} />
+            {videos.length ? (
+                <VideoList lists={videos} />
             ) : (
                 <NoVideos />
             )}

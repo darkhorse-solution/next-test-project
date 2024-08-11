@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Video from '@/models/Video';
 import connectToDatabase from '@/lib/mongoose';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {  
   await connectToDatabase();
 
   // Parse query parameters
@@ -17,7 +17,9 @@ export async function GET(req: NextRequest) {
   const videos = await Video.find({})
     .skip(skip)
     .limit(limit);
-
+// console.log(skip)
+// console.log(limit)
+// console.log(videos)
   // Get the total number of documents
   const totalDocuments = await Video.countDocuments({});
   const totalPages = Math.ceil(totalDocuments / limit);
