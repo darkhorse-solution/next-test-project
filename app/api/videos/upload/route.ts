@@ -1,33 +1,100 @@
-import { NextResponse } from 'next/server';
-import cloudinary from 'cloudinary';
-import Video from '@/models/Video';
-import connectToDatabase from '@/lib/mongoose';
+import { NextRequest, NextResponse } from "next/server";
+import cloudinary from "@/utils/cloudinary.config";
+import fs from "fs/promises";
+import path from "path";
+import connectToDatabase from "@/lib/mongoose";
+import Video from "@/models/Video";
 
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+export async function POST(req: NextRequest) {
+  try {
+    await connectToDatabase();
+    // Get the data from the form
+    const formData = await req.formData();
+    const file = formData.get("video") as File;
+    const title = formData.get("title") as string;
+    const publishYear = formData.get("publishYear") as string;
 
-export async function POST(req: Request, res: Response) {
-    try {
-      const { image, title, publishYear } = await req.json(); // Expecting base64 image, title, and publishYear
-      // console.log(image)
-      const result = await cloudinary.v2.uploader.upload(image, {
-        public_title: `${title}-${publishYear}`, // Use ID and publishYear for the public ID
-        overwrite: true, // Overwrite if the ID already exists
-      });
-      console.log(result)
-
-      // res.status(200).json({ url: result.secure_url });
-      const link = result.secure_url;
-      await connectToDatabase();
-      const newVideo = new Video({title, publishYear, link})
-      console.log(newVideo)
-      await newVideo.save();
-      
-    } catch (error) {
-      return NextResponse.json('Failed upload', { status: 500 });
+    if (!file) {
+      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
-  
+
+    // Read the file as a buffer
+    const buffer = await file.arrayBuffer();
+    console.log(buffer, file.name);
+    
+    const tempPath = path.resolve(process.cwd(), "tmp", `_${Date.now()}` + file.name );
+
+    // Write the buffer to a temporary file
+    await fs.writeFile(tempPath, Buffer.from(buffer));
+
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(tempPath, { resource_type: 'video' });
+    // await cloudinary.uploader.upload_large(tempPath, {
+    //   resource_type: "video",
+    //   folder: "test",
+    //   chunk_size: 7000000,
+    //   unique_filename: true
+    // });
+
+    // Delete the temporary file
+    await fs.unlink(tempPath);
+    console.log('deleted temp file', result);
+    
+    const videoUrl = result.secure_url;
+    console.log(videoUrl);
+    await Video.create({
+      title,
+      publishYear,
+      link: videoUrl
+    });
+
+    return NextResponse.json({ url: videoUrl });
+  } catch (error) {
+    console.error("Error during file upload:", error);
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  }
 }
+
+export async function GET(req: NextRequest) {
+  await connectToDatabase();
+  const limit = req.nextUrl.searchParams.get("limit") || 10;
+  const skip = req.nextUrl.searchParams.get("skip") || 0;
+
+  const video = await Video.find({}, { limit, skip }); 
+  return NextResponse.json({ success: true, data: video });
+}
+
+export async function PUT(req: NextRequest) {
+  await connectToDatabase();
+  const body = await req.json();
+  const id = body._id;
+  delete body._id;
+
+  try {
+    const video = await Video.findById(id);
+    if (!video) {
+      return NextResponse.json({ success: false, error: "Video not found" }, { status: 404 });
+    }
+    await Video.updateOne({ _id: id }, body);
+    return NextResponse.json({ success: true, data: video });
+  } catch (error) {
+    return NextResponse.json({ success: false, error }, { status: 400 });
+  }
+}
+
+// Delete a video
+export async function DELETE(req: NextRequest) {
+  await connectToDatabase();
+  const id = req.nextUrl.searchParams.get("id");
+  try {
+    const video = await Video.findById(id);
+    if (!video) {
+      return NextResponse.json({ success: false, error: "Video not found" }, { status: 404 });
+    }
+    await Video.deleteOne({ _id: id });
+    return NextResponse.json({ success: true, data: video });
+  } catch (error) {
+    return NextResponse.json({ success: false, error }, { status: 400 });
+  }
+}
+
