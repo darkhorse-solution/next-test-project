@@ -22,9 +22,7 @@ async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    const opts = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    const opts = {      
       bufferCommands: false,
     };
 

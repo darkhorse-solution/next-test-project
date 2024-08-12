@@ -154,9 +154,9 @@ export default function CreateVideo({
           <h1 className="text-4xl mb-12">{pagetitle}</h1>
         </div>
 
-        <div className="flex flex-wrap -m-4">
-          <div className="lg:w-6/12 sm:w-1/1 w-full">
-            <div {...getRootProps()} onClick={open} className="ml-3 video-drag">
+        <div className="flex flex-wrap">
+          <div className="md:w-1/2 sm:w-1/1 w-full">
+            <div {...getRootProps()} onClick={open} className="video-drag">
               {imageUrl ? (
                 <Image
                   src={imageUrl}
@@ -182,7 +182,8 @@ export default function CreateVideo({
               )}
             </div>
           </div>
-          <div className="lg:w-6/12 sm:w-1/1 w-full">
+          <div className="md:w-1/2 sm:w-1/1 w-full">
+          <div className="m-5">
             <div className="mb-3">
               <input
                 id="createTitle"
@@ -220,6 +221,7 @@ export default function CreateVideo({
               >
                 Submit
               </button>
+            </div>
             </div>
           </div>
         </div>
