@@ -8,7 +8,7 @@ export interface AuthenticatedRequest extends NextRequest {
 }
 
 export function authMiddleware(req: AuthenticatedRequest) {
-  const token = req.headers.get('Authorization')?.split(' ')[1];
+  const token = req.headers.get('Authorization')?.split(' ')[1];  
 
   if (!token) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -17,6 +17,8 @@ export function authMiddleware(req: AuthenticatedRequest) {
   try {
     const decoded : any = jwt.verify(token, process.env.JWT_SECRET as string);
     req.user = jwtDecode(decoded.token);    
+    console.log(req.user);
+    
     
     return; // Proceed to the requested route
   } catch (err) {

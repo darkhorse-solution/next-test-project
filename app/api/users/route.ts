@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectToDatabase from '../../../lib/mongoose';
-import User from '../../../models/User';
+import connectToDatabase from '@/lib/mongoose';
+import User from '@/models/User';
 
 export async function GET() {
   await connectToDatabase();

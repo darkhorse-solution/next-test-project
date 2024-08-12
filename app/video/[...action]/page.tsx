@@ -1,8 +1,10 @@
 "use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import { useState, useCallback, useEffect } from "react";
+
 import Image from "next/image";
 import Loading from "@/components/Loading";
 
@@ -150,10 +152,7 @@ export default function CreateVideo({
   return (
     <>
       <div className="video-create">
-        <div className="flex">
-          <h1 className="text-4xl mb-12">{pagetitle}</h1>
-        </div>
-
+        <h1 className="text-4xl mb-12">{pageTitle}</h1>
         <div className="flex flex-wrap -m-4">
           <div className="lg:w-6/12 sm:w-1/1 w-full">
             <div {...getRootProps()} onClick={open} className="ml-3 video-drag">
@@ -217,10 +216,31 @@ export default function CreateVideo({
               <button
                 onClick={handleSubmit}
                 className="btn w-200 cst-button py-4 px-3 text-white"
+                disabled={uploading}
               >
                 Submit
               </button>
             </div>
+
+            {uploading && (
+              <div className="mt-4">
+                <p>Uploading: {uploadProgress.toFixed(2)}%</p>
+                <progress value={uploadProgress} max="100" />
+              </div>
+            )}
+
+            {errorMessage && (
+              <div className="mt-4 text-red-500">
+                <p>{errorMessage}</p>
+              </div>
+            )}
+
+            {videoUrl && !uploading && (
+              <div className="mt-4">
+                <p>Video uploaded successfully!</p>
+                <video src={videoUrl} controls width="600"></video>
+              </div>
+            )}
           </div>
         </div>
         <div className="big-gap"></div>
