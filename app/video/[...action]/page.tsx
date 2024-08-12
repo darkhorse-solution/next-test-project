@@ -3,10 +3,10 @@ import Background from "@/components/ui/background";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 
-interface CoUProps {
+interface Video {
   id: string;
   title: string;
   publishYear: number;
@@ -18,16 +18,35 @@ type Image = {
   imageFile: Blob;
 };
 
-export default function CreateVideo({
-  params,
-}: {
-  params: { action: string[] };
-}) {
+export default function CreateVideo({params}: { params: { action: string[] };}) {
   const router = useRouter();
+  const [_id, setId] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
   const [publishYear, setPublishyear] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect (()=> {
+    const fetchVideoById = async (id: string) => {
+      try {
+        const response = await fetch(`/api/videos/getbyid?id=${id}`);     
+        const res = await response.json();
+        setImageUrl(res.link);
+        setTitle(res.title);
+        setPublishyear(res.publishYear);
+        setId(res._id);
+        console.log(res)
+      } catch (error) {
+        console.log("can't get video by id");
+      }
+    }    
+    if(params.action[0] === 'edit' && params.action[1] ) {
+      console.log(params.action[1])
+      fetchVideoById(params.action[1])
+    }
+  }, [params])
+
+  
   let pagetitle = "Create a new movie";
   let edit_id = null;
   if (params.action.length === 2) edit_id = params.action[1];
@@ -40,8 +59,7 @@ export default function CreateVideo({
   const onDrop = useCallback((acceptedFiles: any) => {
     // Upload files to storage
     const file = acceptedFiles[0];
-    setImage(file)
-    console.log(file);
+    setImage(file)    
     const imageUrl = URL.createObjectURL(file);
     setImageUrl(imageUrl);
     // uploadImage({ imageFile: file });
@@ -58,19 +76,18 @@ export default function CreateVideo({
   const handleSubmit = async () => {   
     if(!image || !title || !publishYear)  return;
     const reader = new FileReader();
-    reader.readAsDataURL(image);
-    
-    console.log(title)
+    reader.readAsDataURL(image);        
     reader.onloadend = async () => {
       const base64Image = reader.result?.toString();
     if (base64Image) {
       try {
+        console.log(imageUrl)
         const response = await fetch("/api/videos/upload", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ image: base64Image, title, publishYear }),
+          body: JSON.stringify({ image: base64Image, title, publishYear, _id }),
         });
 
         if (!response.ok) {
@@ -147,6 +164,7 @@ export default function CreateVideo({
                 autoComplete="on"
                 placeholder="Title"
                 required
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
@@ -158,6 +176,7 @@ export default function CreateVideo({
                 autoComplete="on"
                 placeholder="Publish year"
                 required
+                value={publishYear}
                 onChange={(e) => setPublishyear(e.target.value)}
               />
             </div>

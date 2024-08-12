@@ -17,14 +17,13 @@ export async function GET(req: NextRequest) {
   const videos = await Video.find({})
     .skip(skip)
     .limit(limit);
-// console.log(skip)
-// console.log(limit)
-// console.log(videos)
+
   // Get the total number of documents
   const totalDocuments = await Video.countDocuments({});
   const totalPages = Math.ceil(totalDocuments / limit);
 
   // Return paginated results with metadata
+  // console.log(videos)
   return NextResponse.json({
     videos,
     pagination: {
