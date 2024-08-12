@@ -1,14 +1,7 @@
 "use client";
 import "./css/style.css";
 import "../lib/fontAwesome";
-import { Inter } from "next/font/google";
 import { AuthProvider } from "./context/AuthContext";
-
-const inter = Inter({
-  subsets: ["greek"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export default function RootLayout({
   children,
@@ -19,6 +12,7 @@ export default function RootLayout({
     <AuthProvider>
       <html lang="en" className="scroll-smooth w-full">
         <head>   
+          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <title>Welcome, BALAJI</title>      
         </head>
         <body

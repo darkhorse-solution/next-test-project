@@ -51,8 +51,6 @@ export default function CreateVideo({
     }
   }, [params]);
 
- 
-
   // Set page title based on action
   const pagetitle = params.action[0] === "edit" ? "Edit" : "Create a new movie";
 
@@ -63,58 +61,87 @@ export default function CreateVideo({
 
   // Dropzone configuration
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (!loading) {
+    if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
-      setImage(file);
-      const imageUrl = URL.createObjectURL(file);
-      setImageUrl(imageUrl);
+      console.log(file.type); // Log the file type
+      if (file.type.startsWith("image/")) {
+        setImage(file);
+        const imageUrl = URL.createObjectURL(file);
+        setImageUrl(imageUrl);
+      } else {
+        console.error("Invalid file type. Please upload an image.");
+      }
     }
   }, []);
 
   const { getRootProps, getInputProps, open } = useDropzone({
-    accept: "image/*",
     maxFiles: 1,
     noClick: true,
     noKeyboard: true,
     onDrop,
   });
-   // Show loading state
-  
+  // Show loading state
 
   // Handle form submission
-  const handleSubmit = async () => {  
-    if (!image || !title || !publishYear) return;
-    
+  const handleSubmit = async () => {
+    if (!imageUrl || !title || !publishYear) return;
 
     const reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onloadend = async () => {
-      const base64Image = reader.result?.toString();
-      if (base64Image) {
-        try {
-          const response = await fetch("/api/videos/upload", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              image: base64Image,
-              title,
-              publishYear,
-              _id,
-            }),
-          });
+    if (image) {
+      //create
+      reader.readAsDataURL(image);
+      reader.onloadend = async () => {
+        const base64Image = reader.result?.toString();
+        if (base64Image) {
+          try {
+            const response = await fetch("/api/videos/upload", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                image: base64Image,
+                title,
+                publishYear,
+                _id,
+              }),
+            });
 
-          if (!response.ok) {
-            throw new Error("Image upload failed");
-          } else {
-            router.push("/video");
+            if (!response.ok) {
+              throw new Error("Image upload failed");
+            } else {
+              router.push("/video");
+            }
+          } catch (error) {
+            console.error(error);
           }
-        } catch (error) {
-          console.error(error);
         }
+      };
+    } else {
+      //update
+      try {
+        const response = await fetch("/api/videos/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            publishYear,
+            _id,
+            imageUrl
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Image upload failed");
+        } else {
+          router.push("/video");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    };
+    }
   };
 
   if (loading) {
