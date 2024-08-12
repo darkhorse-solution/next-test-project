@@ -1,0 +1,27 @@
+.pagenation_text {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    line-height: 24px;
+    margin: 5px;
+}
+
+.pagenation_active {
+
+    background-color: #2BD17E;
+    border-radius: 10px;
+    width: 32px;
+    height: 32px;
+    color: white;
+    margin: 5px;
+}
+
+.pagenation_noactive {
+    color: white;
+    font-size: 16px;
+    background-color: #092C39;
+    border-radius: 10px;
+    width: 32px;
+    height: 32px;
+    margin: 5px;
+}
