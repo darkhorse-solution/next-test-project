@@ -56,7 +56,6 @@ export async function POST(req: Request, res: Response) {
 
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(tempPath, { resource_type: 'video' });
-    
     // Delete the temporary file
     await fs.unlink(tempPath);
     
