@@ -44,5 +44,5 @@ export async function POST(req: Request, res: Response) {
     } catch (error) {
       return NextResponse.json('Failed upload', { status: 500 });
     }
-  
+
 }
