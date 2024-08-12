@@ -13,7 +13,7 @@ interface PagenatoinProps {
   
 
 export default function Pagenation({pageState}: PagenatoinProps) {
-    console.log(pageState)
+    // console.log(pageState)
     return (
         <>
         <div>
