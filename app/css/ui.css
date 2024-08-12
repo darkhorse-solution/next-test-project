@@ -124,12 +124,12 @@ input[type="checkbox"]:checked + label:before {
 
 .w-300 {
   max-width: 300px;
-  width: 50%;
+  width: 55%;
 }
 
 .w-400 {
   max-width: 400px;
-  width: 60%;
+  width: 75%;
 }
 
 .w-200 {
@@ -141,5 +141,17 @@ input[type="checkbox"]:checked + label:before {
   .w-400 {
     width: 100% !important;
     max-width: 100% !important;
+  }
+  .action-inputs{
+    /* margin-top:  -500px; */
+    top: 0;
+    width: 100%;
+    position: absolute;
+  }
+  .w-200 {
+    width: 49%;
+  }
+  .mobile-container{
+    position: relative;
   }
 }

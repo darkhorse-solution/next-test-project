@@ -154,9 +154,9 @@ export default function CreateVideo({
           <h1 className="text-4xl mb-12">{pagetitle}</h1>
         </div>
 
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap  mobile-container">
           <div className="md:w-1/2 sm:w-1/1 w-full">
-            <div {...getRootProps()} onClick={open} className="video-drag">
+            <div {...getRootProps()} onClick={open} className="video-drag mb-3">
               {imageUrl ? (
                 <Image
                   src={imageUrl}
@@ -183,8 +183,9 @@ export default function CreateVideo({
             </div>
           </div>
           <div className="md:w-1/2 sm:w-1/1 w-full">
-          <div className="m-5">
-            <div className="mb-3">
+          <div >
+            <div className="action-inputs">
+            <div className="mb-5">
               <input
                 id="createTitle"
                 className="w-400 cst-input text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
@@ -196,7 +197,7 @@ export default function CreateVideo({
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div>
+            <div className="mb-10">
               <input
                 id="createPublishyear"
                 className="w-300 cst-input text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
@@ -208,7 +209,8 @@ export default function CreateVideo({
                 onChange={(e) => setPublishyear(e.target.value)}
               />
             </div>
-            <div className="flex flex-wrap mt-3">
+            </div>
+            <div className="flex flex-wrap mt-10">
               <button
                 onClick={handleCancel}
                 className="btn w-200 mr-2 cst-button-outline py-4 px-3 text-white"

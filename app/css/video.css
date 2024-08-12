@@ -35,8 +35,7 @@
   padding: 5%;
 }
 .video-create {
-  padding: 6%;
-  padding-left: 8%;
+  padding: 6%;  
   color: white;
   position: relative;
 }
@@ -50,6 +49,7 @@
   border-radius: 10px;
   position: relative;
   display: block;
+  overflow: hidden;
 }
 .video-drag:hover {
   cursor: pointer;
@@ -83,3 +83,10 @@
     cursor: pointer;
 }
 
+@media (max-width: 768px) {
+  .video-drag{
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 135px;
+  }
+}
