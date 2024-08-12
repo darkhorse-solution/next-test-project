@@ -1,115 +1,184 @@
 "use client";
-import { useState, useCallback } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
+import { useState, useCallback, useEffect } from "react";
+
 import Image from "next/image";
+import Loading from "@/components/Loading";
 
-export default function CreateVideo({ params }: { params: { action: string[] } }) {
+interface Video {
+  id: string;
+  title: string;
+  publishYear: number;
+  link: string;
+  createdBy: string;
+}
+
+export default function CreateVideo({
+  params,
+}: {
+  params: { action: string[] };
+}) {
   const router = useRouter();
-  const [video, setVideo] = useState<File | null>(null);
+  const [_id, setId] = useState<string>("");
+  const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
-  const [publishYear, setPublishYear] = useState<string>("");
-  const [videoUrl, setVideoUrl] = useState<string>("");
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [uploading, setUploading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [publishYear, setPublishyear] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
-  let pageTitle = "Create a new video";
-  let editId = null;
-  if (params.action.length === 2) editId = params.action[1];
-  if (params && params.action[0] === "edit") {
-    pageTitle = "Edit";
-  }
+  // Fetch video data if editing
+  useEffect(() => {
+    const fetchVideoById = async (id: string) => {
+      try {
+        const response = await fetch(`/api/videos/getbyid?id=${id}`);
+        const res = await response.json();
+        setImageUrl(res.link);
+        setTitle(res.title);
+        setPublishyear(res.publishYear);
+        setId(res._id);
+      } catch (error) {
+        console.log("Can't get video by id");
+      } finally {
+        setLoading(false); // Ensure loading is set to false in finally block
+      }
+    };
 
+    if (params.action[0] === "edit" && params.action[1]) {
+      fetchVideoById(params.action[1]);
+    } else {
+      setLoading(false); // Set loading to false if not editing
+    }
+  }, [params]);
+
+  // Set page title based on action
+  const pagetitle = params.action[0] === "edit" ? "Edit" : "Create a new movie";
+
+  // Cancel button handler
   const handleCancel = () => {
     router.push("/video");
   };
 
+  // Dropzone configuration
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    setVideo(file);
-    const videoUrl = URL.createObjectURL(file);
-    setVideoUrl(videoUrl);
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      console.log(file.type); // Log the file type
+      if (file.type.startsWith("image/")) {
+        setImage(file);
+        const imageUrl = URL.createObjectURL(file);
+        setImageUrl(imageUrl);
+      } else {
+        console.error("Invalid file type. Please upload an image.");
+      }
+    }
   }, []);
 
   const { getRootProps, getInputProps, open } = useDropzone({
-    accept: {
-      "video/*": [],
-    },
     maxFiles: 1,
     noClick: true,
     noKeyboard: true,
     onDrop,
   });
+  // Show loading state
 
+  // Handle form submission
   const handleSubmit = async () => {
-    if (!video || !title || !publishYear) return;
+    if (!imageUrl || !title || !publishYear) return;
 
-    setUploading(true);
-    setErrorMessage("");
-    setUploadProgress(0);
+    const reader = new FileReader();
+    if (image) {
+      //create
+      reader.readAsDataURL(image);
+      reader.onloadend = async () => {
+        const base64Image = reader.result?.toString();
+        if (base64Image) {
+          try {
+            const response = await fetch("/api/videos/upload", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                image: base64Image,
+                title,
+                publishYear,
+                _id,
+              }),
+            });
 
-    const formData = new FormData();
-    formData.append("video", video);
-    formData.append("title", title);
-    formData.append("publishYear", publishYear);
+            if (!response.ok) {
+              throw new Error("Image upload failed");
+            } else {
+              router.push("/video");
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      };
+    } else {
+      //update
+      try {
+        const response = await fetch("/api/videos/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            publishYear,
+            _id,
+            imageUrl
+          }),
+        });
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/videos/upload", true);
-
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percentComplete = (event.loaded / event.total) * 100;
-        setUploadProgress(percentComplete);
+        if (!response.ok) {
+          throw new Error("Image upload failed");
+        } else {
+          router.push("/video");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    };
-
-    xhr.onload = () => {
-      setUploading(false);
-      if (xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        setVideoUrl(data.url);
-      } else {
-        setErrorMessage("Video upload failed");
-      }
-    };
-
-    xhr.onerror = () => {
-      setUploading(false);
-      setErrorMessage("An error occurred during the video upload.");
-    };
-
-    xhr.send(formData);
+    }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="video-create">
         <h1 className="text-4xl mb-12">{pageTitle}</h1>
         <div className="flex flex-wrap -m-4">
           <div className="lg:w-6/12 sm:w-1/1 w-full">
-            <div>
-              <div {...getRootProps()} onClick={open} className="ml-3 video-drag">
-                {videoUrl ? (
-                  <Image
-                    src={videoUrl}
-                    alt="video thumbnail"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                ) : (
-                  <>
-                    <input
-                      {...getInputProps()}
-                      style={{ width: "100%", height: "100%" }}
-                      hidden
-                    />
-                    <div className="video-drag-content">
-                      <h5 className="text-white text-xl mt-5">Drop a Video here</h5>
+            <div {...getRootProps()} onClick={open} className="ml-3 video-drag">
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt="image"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              ) : (
+                <>
+                  <input {...getInputProps()} hidden />
+                  <div className="video-drag-content">
+                    <div className="flex" style={{ justifyContent: "center" }}>
+                      <FontAwesomeIcon
+                        icon={["fas", "download"]}
+                        style={{ width: "24px", textAlign: "center" }}
+                      />
                     </div>
-                  </>
-                )}
-              </div>
+                    <h5 className="text-white text-xl mt-5">
+                      Drop an Image here
+                    </h5>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="lg:w-6/12 sm:w-1/1 w-full">
@@ -121,25 +190,26 @@ export default function CreateVideo({ params }: { params: { action: string[] } }
                 autoComplete="on"
                 placeholder="Title"
                 required
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div>
               <input
-                id="createPublishYear"
+                id="createPublishyear"
                 className="w-300 cst-input text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
                 type="text"
                 autoComplete="on"
                 placeholder="Publish year"
                 required
-                onChange={(e) => setPublishYear(e.target.value)}
+                value={publishYear}
+                onChange={(e) => setPublishyear(e.target.value)}
               />
             </div>
             <div className="flex flex-wrap mt-3">
               <button
                 onClick={handleCancel}
                 className="btn w-200 mr-2 cst-button-outline py-4 px-3 text-white"
-                disabled={uploading}
               >
                 Cancel
               </button>
@@ -173,6 +243,7 @@ export default function CreateVideo({ params }: { params: { action: string[] } }
             )}
           </div>
         </div>
+        <div className="big-gap"></div>
       </div>
     </>
   );

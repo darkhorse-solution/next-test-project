@@ -1,30 +1,48 @@
-import { NextRequest, NextResponse } from "next/server";
-import cloudinary from "@/utils/cloudinary.config";
-import fs from "fs/promises";
-import path from "path";
-import connectToDatabase from "@/lib/mongoose";
-import Video from "@/models/Video";
-import { AuthenticatedRequest } from "@/types";
-import { authMiddleware } from "@/middleware/requireAuth";
+import { NextResponse } from 'next/server';
+import cloudinary from 'cloudinary';
+import Video from '@/models/Video';
+import connectToDatabase from '@/lib/mongoose';
 
-export async function POST(req: AuthenticatedRequest) { 
-  try {
-    await connectToDatabase();
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    // const authResponse = authMiddleware(req);    
-    // if (authResponse) return authResponse;
-    
-    // Get the data from the form
-    const formData = await req.formData();
-    const file = formData.get("video") as File;
-    const title = formData.get("title") as string;
-    const publishYear = formData.get("publishYear") as string;
-    console.log(req.user);
-    
-    const createdBy = req.user?.id;
-
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+export async function POST(req: Request, res: Response) {
+    try {
+      const { image, title, publishYear, _id, imageUrl } = await req.json(); // Expecting base64 image, title, and publishYear
+      let link = "";
+      // console.log(image)
+      if (image) {
+        const result = await cloudinary.v2.uploader.upload(image, {
+          public_title: `${title}-${publishYear}`, // Use ID and publishYear for the public ID
+          overwrite: true, // Overwrite if the ID already exists
+        });      
+  
+        // res.status(200).json({ url: result.secure_url });
+        link = result.secure_url;
+      }
+      else {
+        link = imageUrl;
+      }
+      
+      await connectToDatabase();
+      if(_id) {
+        const vid = await Video.findById(_id);
+        vid.title = title;
+        vid.publishYear = publishYear;
+        vid.link = link;
+        vid.save();
+      }
+      else {
+        const newVideo = new Video({title, publishYear, link})      
+        await newVideo.save();      
+      }      
+      
+      return NextResponse.json("Successfully added", {status: 200})
+    } catch (error) {
+      return NextResponse.json('Failed upload', { status: 500 });
     }
 
     // Read the file as a buffer
@@ -41,11 +59,11 @@ export async function POST(req: AuthenticatedRequest) {
     // Delete the temporary file
     await fs.unlink(tempPath);
     
-    const videoUrl = result.secure_url;
+    const link = result.secure_url;
     await Video.create({
       title,
       publishYear,
-      link: videoUrl,
+      link,
       createdBy
     });
 

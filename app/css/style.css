@@ -10,4 +10,6 @@
 @import './basic.css';
 @import './background.css';
 @import './ui.css';
-@import './video.css'
+@import './video.css';
+@import './pagenation.css';
+@import './loading.css'

@@ -5,7 +5,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 import Link from "next/link";
-import Background from "../../../components/ui/background"
+// import Background from "../../../components/ui/background"
 
 export default function SignIn() {
   const { login } = useAuth();
@@ -31,7 +31,7 @@ export default function SignIn() {
   return (
     <>
       <>
-      <Background></Background>
+      {/* <Background></Background> */}
         <div className="mb-10">
           <h1 className="text-6xl font-bold text-white text-center" style={{fontFamily: "monospace"}}>Sign in</h1>
         </div>
