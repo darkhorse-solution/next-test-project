@@ -34,6 +34,7 @@
   font-size: 17px;
   font-weight: 900;
   transition: all ease-out 0.1s;
+  border-radius: 10px;
 }
 .cst-button:hover {
   background: #29c778;
@@ -44,11 +45,13 @@
 .cst-checkbox {
   display: flex;
   justify-content: center;
+  
 }
 
 .cst-button-outline {
     border: 1px solid rgb(232, 229, 229);
-    transition: all .1s ease-in
+    transition: all .1s ease-in;
+    border-radius: 10px;
 }
 
 .cst-button-outline:hover {
