@@ -153,6 +153,7 @@ export default function CreateVideo({
         <div className="flex">
           <h1 className="text-4xl mb-12">{pagetitle}</h1>
         </div>
+        <div className="mobile-gap"></div>
 
         <div className="flex flex-wrap  mobile-container">
           <div className="md:w-1/2 sm:w-1/1 w-full">

@@ -4,6 +4,7 @@
   background-color: #224957;
   border: #224957 1px solid;
   border-radius: 10px;
+  min-width: 300px;
 }
 .cst-input:active,
 .cst-input:focus {
@@ -154,4 +155,19 @@ input[type="checkbox"]:checked + label:before {
   .mobile-container{
     position: relative;
   }
+  .mobile_btn {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  .mobile_home_container{
+    display: block !important;
+    
+  }
+  .mobile_logout{
+    display: none;
+  }
+  .mobile-gap {
+    height: 40px;
+  }
+  
 }

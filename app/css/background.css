@@ -18,3 +18,12 @@
 .big-gap{
     height: 130px;
 }
+
+@media (max-width: 768px) {
+    .background-svg {
+                
+        transform: scaleY(2);
+        
+        
+    }
+}

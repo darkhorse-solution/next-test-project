@@ -14,14 +14,14 @@ export default function Home() {
         <div className="text-center text-white home-title">
           <h1 className="text-5xl">Welcome BALAJI</h1>
           <p>We sincerly hope to work with you. We will do our best.</p>
-          <div className="flex flex-wrap mt-5">
+          <div className="flex flex-wrap mt-5 mobile_home_container">
             <Link href="/signin">
-              <button className="btn w-200 mr-2 cst-button-outline  py-4 px-3 text-white">
+              <button className="btn w-200 mr-2 cst-button-outline  py-4 px-3 text-white mobile_btn">
                 Login
               </button>
             </Link>
             <Link href="/signup">
-              <button className="btn w-200 cst-button py-4 px-3 text-white">
+              <button className="btn w-200 cst-button py-4 px-3 text-white mobile_btn">
                 Register
               </button>
             </Link>

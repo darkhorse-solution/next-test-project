@@ -89,4 +89,10 @@
     max-width: 100% !important;
     margin-top: 135px;
   }
+  .video-container {
+    padding-top: 80px;
+  }
+  .video-create {
+    padding-top: 80px;
+  }
 }

@@ -36,6 +36,7 @@ export default function VideoList({ lists }: VideoListProps) {
       <div className="video-container">
         <div className="flex">
           <h1 className="text-4xl text-white mb-10">My Movies</h1>
+          
           <div className="video-add-btn" onClick={handleAdd}>
             <svg
               width="28"
@@ -52,7 +53,7 @@ export default function VideoList({ lists }: VideoListProps) {
           </div>
           <div className="video-logout mt-1">
             <div className="flex" onClick={handleLogout}>
-              <h1 className="text-2xl text-white mb-10">Logout</h1>
+              <h1 className="text-2xl text-white mb-10 mobile_logout">Logout</h1>
               <div>
                 <svg
                   width="24"
@@ -71,6 +72,7 @@ export default function VideoList({ lists }: VideoListProps) {
             </div>
           </div>
         </div>
+        <div className="mobile-gap"></div>
 
         <div className="flex flex-wrap -m-4">
           {lists.map((list, idx) => {
