@@ -60,11 +60,11 @@ export async function POST(req: Request, res: Response) {
     // Delete the temporary file
     await fs.unlink(tempPath);
     
-    const videoUrl = result.secure_url;
+    const link = result.secure_url;
     await Video.create({
       title,
       publishYear,
-      link: videoUrl,
+      link,
       createdBy
     });
 
