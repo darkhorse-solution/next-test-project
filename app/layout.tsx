@@ -15,8 +15,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <title>Welcome, BALAJI</title>      
         </head>
-        <body
-          
+        <body          
         >
           <div className="background-cover">
             <div>

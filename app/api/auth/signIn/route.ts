@@ -7,7 +7,9 @@ export async function POST(req: Request) {
   await connectToDatabase();
 
   const { email, password } = await req.json();
-
+  if(!(email && password)) {
+    return NextResponse.json({ message: 'Field is required.' }, { status: 400 });
+  }
   // Find user by email
   const user = await User.findOne({ email });
   if (!user) {

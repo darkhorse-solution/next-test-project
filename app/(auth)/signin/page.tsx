@@ -10,11 +10,11 @@ import Link from "next/link";
 export default function SignIn() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");  
+  const [error, setError] = useState("");
   const router = useRouter();
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    console.log(email, password);
+    e.preventDefault();    
     const res = await fetch("/api/auth/signIn", {
       method: "POST",
       headers: {
@@ -22,10 +22,14 @@ export default function SignIn() {
       },
       body: JSON.stringify({ email, password }),
     });
-
+    const res_data = await res.json();
     if (res.ok) {
       login(email);
       router.push("/video");
+    }
+    else {
+      setError(res_data?.message)
+      
     }
   }
   return (
@@ -41,23 +45,25 @@ export default function SignIn() {
             <div>              
               <input
                 id="email"
-                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
+                className={`w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out ${error?'error':''}`}
                 type="email"
                 placeholder="Email"
                 required
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {error?(<label className="texterror">{error}</label>): (<></>) } 
             </div>
             <div>                           
               <input
                 id="password"
-                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
+                className={`w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out ${error?'error':''}`}
                 type="password"
                 autoComplete="on"
                 placeholder="Password"
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {error?(<label className="texterror">{error}</label>): (<></>) } 
             </div>
             <div className="cst-checkbox">              
               <input type="checkbox" id="box-1"/>

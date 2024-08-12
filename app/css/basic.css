@@ -5,13 +5,14 @@ html{
     
 }
 
-body {
-    
+body {    
+    background-color: #021921;
     height: 100%;
     width: 100%;
-    font-family: monospace;
-   
-    
+    max-width: 1440px;
+    margin: 0 auto !important;
+    /* padding: 0; */
+    font-family: monospace;       
 }
 
 .home-title{

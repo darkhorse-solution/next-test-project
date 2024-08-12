@@ -22,6 +22,7 @@
 .video-card:hover {
   box-shadow: 0 5px 15px 6px rgba(7, 1, 1, 0.1);
   transition: all 0.1s ease-in;
+  background-color: rgba(#082935, 0.55);
 }
 .video-image {
   width: 100%;  
@@ -52,6 +53,7 @@
 }
 .video-drag:hover {
   cursor: pointer;
+  background-color: rgba(#082935, 0.55);
   box-shadow: 0 5px 16px 4px rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease-out;
 }

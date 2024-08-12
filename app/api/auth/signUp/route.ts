@@ -6,8 +6,9 @@ export async function POST(req: Request) {
   await connectToDatabase();
 
   const { email, password } = await req.json();
-  console.log(email)
-
+  if(!(email && password)) {
+    return NextResponse.json({ message: 'Field is required' }, { status: 400 });
+  }
   // Check if the user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {

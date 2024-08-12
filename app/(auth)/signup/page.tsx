@@ -10,6 +10,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -21,9 +22,13 @@ export default function SignUp() {
       },
       body: JSON.stringify({ email, password }),
     });
+    let res_data = await res.json()
     if (res.ok) {
       login(email);
       router.push("/video");
+    }
+    else {
+      setError(res_data?.message)
     }
   }
   return (
@@ -44,23 +49,25 @@ export default function SignUp() {
             <div>
               <input
                 id="email"
-                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
+                className={`w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out ${error?'error':''}`}
                 type="email"
                 placeholder="Email"
                 required
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {error?(<label className="texterror">{error}</label>): (<></>) } 
             </div>
             <div>
               <input
                 id="password"
-                className="w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out"
+                className={`w-full cst-input  text-base outline-none text-white py-3 px-3 transition-colors duration-200 ease-in-out ${error?'error':''}`}
                 type="password"
                 autoComplete="on"
                 placeholder="Password"
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {error?(<label className="texterror">{error}</label>): (<></>) } 
             </div>
           </div>
           <div className="mt-6">
