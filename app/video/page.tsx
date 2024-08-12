@@ -1,5 +1,5 @@
 "use client";
-import Background from "@/components/ui/background";
+// import Background from "@/components/ui/background";
 import { useEffect, useState } from "react";
 import NoVideos from "@/components/video/novideo";
 import VideoList from "@/components/video/videolist";
@@ -42,12 +42,15 @@ function Videos() {
 
   return (
     <>
-      <Background />
+    
       <div>
         {videos.length ? (
           <div>
             <VideoList lists={videos} />
-            <Pagenation pageState = {pageState} />
+            <div className="flex mt-10" style={{ justifyContent: "center" }}>
+              <Pagenation pageState = {pageState} />
+            </div>
+            
           </div>
         ) : (
           <NoVideos />

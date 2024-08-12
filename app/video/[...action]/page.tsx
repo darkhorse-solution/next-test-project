@@ -1,5 +1,4 @@
 "use client";
-import Background from "@/components/ui/background";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
@@ -106,8 +105,7 @@ export default function CreateVideo({params}: { params: { action: string[] };}) 
   };
 
   return (
-    <>
-      <Background />
+    <>      
       <div className="video-create">
         <div className="flex">
           <h1 className="text-4xl mb-12">{pagetitle}</h1>
@@ -196,6 +194,7 @@ export default function CreateVideo({params}: { params: { action: string[] };}) 
             </div>
           </div>
         </div>
+        <div className="big-gap"></div>
       </div>
     </>
   );

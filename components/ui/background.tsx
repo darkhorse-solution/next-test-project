@@ -4,6 +4,7 @@ import Logo from "./logo";
 export default function Background({ border = false }: { border?: boolean }) {
   return (
     <div className="background-cover">
+      <div>
       <div className="background-svg">
         <svg
         
@@ -42,6 +43,7 @@ export default function Background({ border = false }: { border?: boolean }) {
             fillOpacity="0.13"
           />
         </svg>
+      </div>
       </div>
     </div>
   );
