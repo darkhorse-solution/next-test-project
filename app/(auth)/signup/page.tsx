@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import Background from "../../../components/ui/background";
+// import Background from "../../../components/ui/background";
 import { useAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default function SignUp() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(email, password);
+    // console.log(email, password);
     const res = await fetch("/api/auth/signUp", {
       method: "POST",
       headers: {
@@ -29,7 +29,7 @@ export default function SignUp() {
   return (
     <>
       <>
-        <Background></Background>
+        {/* <Background></Background> */}
         <div className="mb-10">
           <h1
             className="text-6xl font-bold text-white text-center"

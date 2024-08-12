@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Video from '@/models/Video';
 import connectToDatabase from '@/lib/mongoose';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {  
   await connectToDatabase();
 
   // Parse query parameters
@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
   const totalPages = Math.ceil(totalDocuments / limit);
 
   // Return paginated results with metadata
+  // console.log(videos)
   return NextResponse.json({
     videos,
     pagination: {

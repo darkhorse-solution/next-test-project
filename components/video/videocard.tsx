@@ -2,7 +2,7 @@ import Image from "next/image";
 import {useRouter} from "next/navigation";
 
 type Video = {
-  id: string;
+  _id: string;
   title: string;
   publishYear: number;
   link: string;
@@ -15,7 +15,7 @@ interface VideoCard {
 export default function VideoCard({ content }: VideoCard) {
     const router = useRouter();
     function handleEdit() {
-        let link = "/video/edit/" + content.id;
+        let link = "/video/edit/" + content._id;
         router.push(link);
     }
   return (

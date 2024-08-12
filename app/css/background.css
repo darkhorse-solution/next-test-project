@@ -1,11 +1,10 @@
 .background-cover {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    right: 0;
+    width: 100%;
+    height: max-content;
+    min-height: 100%;
+    position: relative;  
     background-color: #093545;
-    z-index: -1;
+    z-index: 0;
 }
 
 .background-svg {
@@ -14,4 +13,8 @@
     bottom: 0;
     width: 100%; /* Make the SVG fill the container */
     height: auto; /* Maintain aspect ratio */
+}
+
+.big-gap{
+    height: 130px;
 }

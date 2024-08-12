@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 type Video = {
-  id: string;
+  _id: string;
   title: string;
   publishYear: number;
   link: string;
@@ -26,8 +26,7 @@ export default function VideoList({ lists }: VideoListProps) {
   function handleAdd() {
     router.push('/video/create')
   }
-  useEffect(()=> {
-    console.log(user);
+  useEffect(()=> {    
     if(!user?.email) {
       router.push('/signin')
     }
